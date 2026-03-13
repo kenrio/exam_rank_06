@@ -106,7 +106,7 @@ int main(int argc, char **argv)
 
 					// 接続メッセージ
 					char	msg[64];
-					sprintf(msg, "server: client %d just arrived\n", client_id[client_fd]);
+					snprintf(msg, sizeof(msg), "server: client %d just arrived\n", client_id[client_fd]);
 					send_to_all(client_fd, server_fd, &master, fd_max, msg);
 				}
 			}
@@ -118,7 +118,7 @@ int main(int argc, char **argv)
 				{
 					// 切断メッセージ
 					char	msg[64];
-					sprintf(msg, "server: client %d just left\n", client_id[fd]);
+					snprintf(msg, sizeof(msg), "server: client %d just left\n", client_id[fd]);
 					send_to_all(fd, server_fd, &master, fd_max, msg);
 
 					// クリーンアップ
