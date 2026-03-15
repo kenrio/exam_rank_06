@@ -21,7 +21,7 @@ void	fatal_error(void)
 	exit(1);
 }
 
-void	send_to_all(int exclude_fd, int server_fd, fd_set *master, int fd_max, char *msg)
+void	broadcast(int exclude_fd, int server_fd, fd_set *master, int fd_max, char *msg)
 {
 	for (int fd = 0; fd <= fd_max; ++fd)
 	{
@@ -47,7 +47,7 @@ void	handle_new_connection(void)
 
 	char	msg[64];
 	sprintf(msg, "server: client %d just arrived\n", client_id[client_fd]);
-	send_to_all(client_fd, server_fd, &master, fd_max, msg);
+	broadcast(client_fd, server_fd, &master, fd_max, msg);
 
 	return ;
 }
@@ -56,7 +56,7 @@ void	handle_disconnect(int fd)
 {
 	char	msg[64];
 	sprintf(msg, "server: client %d just left\n", client_id[fd]);
-	send_to_all(fd, server_fd, &master, fd_max, msg);
+	broadcast(fd, server_fd, &master, fd_max, msg);
 
 	close(fd);
 	FD_CLR(fd, &master);
@@ -83,7 +83,7 @@ void	process_buf(int fd)
 		if (!full)
 			fatal_error();
 
-		send_to_all(fd, server_fd, &master, fd_max, msg);
+		broadcast(fd, server_fd, &master, fd_max, msg);
 		free(full);
 		free(msg);
 	}
