@@ -213,7 +213,7 @@ int main(int argc, char **argv)
 		fd_set read_fds = master;
 		write_fds = master;
 		// select() でread_fdsのfdにイベントが起きるまでブロック
-		if (select(fd_max + 1, & read_fds, &write_fds, NULL, NULL) < 0)
+		if (select(fd_max + 1, &read_fds, &write_fds, NULL, NULL) < 0)
 			continue ;
 
 		// 全fdを順に見て、FD_ISSETで「このfdにイベントがあるか」をチェックする
